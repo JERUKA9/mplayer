@@ -2338,6 +2338,19 @@ static struct {
 };
 
 
+void write_current_position(MPContext *mpctx) {
+  FILE *fp;
+
+  float v = mpctx->sh_video ? mpctx->sh_video->pts:
+    playing_audio_pts(mpctx->sh_audio, mpctx->d_audio,
+		      mpctx->audio_out);
+  
+  fp = fopen("/home/larsi/.mplayer.positions", "a");
+  fprintf(fp, "%f %s\n", v, get_metadata(META_NAME));
+  fclose(fp);
+}
+
+
 /// Handle commands that set a property.
 static int set_property_command(MPContext *mpctx, mp_cmd_t *cmd)
 {
@@ -2447,6 +2460,8 @@ static const char *property_error_string(int error_value)
     return "UNKNOWN";
 }
 ///@}
+
+static audio_sink = 2;
 
 static void remove_subtitle_range(MPContext *mpctx, int start, int count)
 {
@@ -2741,8 +2756,42 @@ int run_command(MPContext *mpctx, mp_cmd_t *cmd)
             break;
 
         case MP_CMD_QUIT:
+	    write_current_position(mpctx);
             exit_player_with_rc(EXIT_QUIT,
                                 (cmd->nargs > 0) ? cmd->args[0].v.i : 0);
+
+        case MP_CMD_RECORD:
+	  audio_sink++;
+	  if (audio_sink > 2)
+	    audio_sink = 0;
+	  if (audio_sink == 0)
+	    goto audio_phones;
+	  else if (audio_sink == 2)
+	    goto audio_tv;
+	  else
+	    goto audio_stereo;
+
+        case MP_CMD_SPEAKER_PHONES:
+	audio_phones:
+	  audio_driver_list[0] = "alsa:device=hw=0.0";
+	  audio_delay = -0.1;
+	  goto audio_cont;
+        case MP_CMD_SPEAKER_TV:
+	audio_tv:
+	  audio_driver_list[0] = "alsa:device=hw=0.7";
+	  audio_delay = 0;
+	  goto audio_cont;
+        case MP_CMD_SPEAKER_STEREO:
+	audio_stereo:
+	  audio_driver_list[0] = "alsa:device=hw=1.0";
+	  audio_delay = 0;
+
+	audio_cont:
+	  mpctx->delay = audio_delay;
+	  audio_driver_list[1] = NULL;
+	  uninit_player(INITIALIZED_AO | INITIALIZED_ACODEC);
+	  reinit_audio_chain();
+	  break;
 
         case MP_CMD_PLAY_TREE_STEP:{
                 int n = cmd->args[0].v.i == 0 ? 1 : cmd->args[0].v.i;

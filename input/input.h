@@ -165,6 +165,11 @@ typedef enum {
   /// GUI command
   MP_CMD_GUI,
 
+  MP_CMD_SPEAKER_PHONES,
+  MP_CMD_SPEAKER_TV,
+  MP_CMD_SPEAKER_STEREO,
+
+  MP_CMD_RECORD,
 } mp_command_type;
 
 // The arg types

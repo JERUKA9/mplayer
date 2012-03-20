@@ -83,8 +83,12 @@ static const mp_cmd_t mp_cmds[] = {
   { MP_CMD_SPEED_MULT, "speed_mult", 1, { {MP_CMD_ARG_FLOAT,{0}}, {-1,{0}} } },
   { MP_CMD_SPEED_SET, "speed_set", 1, { {MP_CMD_ARG_FLOAT,{0}}, {-1,{0}} } },
   { MP_CMD_QUIT, "quit", 0, { {MP_CMD_ARG_INT,{0}}, {-1,{0}} } },
+  { MP_CMD_SPEAKER_PHONES, "speaker_phones", 0, { {MP_CMD_ARG_INT,{0}}, {-1,{0}} } },
+  { MP_CMD_SPEAKER_TV, "speaker_tv", 0, { {MP_CMD_ARG_INT,{0}}, {-1,{0}} } },
+  { MP_CMD_SPEAKER_STEREO, "speaker_stereo", 0, { {MP_CMD_ARG_INT,{0}}, {-1,{0}} } },
   { MP_CMD_STOP, "stop", 0, { {-1,{0}} } },
   { MP_CMD_PAUSE, "pause", 0, { {-1,{0}} } },
+  { MP_CMD_RECORD, "record", 0, { {-1,{0}} } },
   { MP_CMD_FRAME_STEP, "frame_step", 0, { {-1,{0}} } },
   { MP_CMD_PLAY_TREE_STEP, "pt_step",1, { { MP_CMD_ARG_INT ,{0}}, { MP_CMD_ARG_INT ,{0}}, {-1,{0}} } },
   { MP_CMD_PLAY_TREE_UP_STEP, "pt_up_step",1,  { { MP_CMD_ARG_INT,{0} }, { MP_CMD_ARG_INT ,{0}}, {-1,{0}} } },
@@ -370,6 +374,7 @@ static const mp_key_name_t key_names[] = {
 
   { KEY_CLOSE_WIN, "CLOSE_WIN" },
 
+  { KEY_RECORD, "RECORD" },
   { 0, NULL }
 };
 
@@ -412,6 +417,9 @@ static const mp_cmd_bind_t def_cmd_binds[] = {
   { { '}', 0 }, "speed_mult 2.0" },
   { { KEY_BACKSPACE, 0 }, "speed_set 1.0" },
   { { 'q', 0 }, "quit" },
+  { { KEY_F+6, 0 }, "speaker_phones" },
+  { { KEY_F+7, 0 }, "speaker_tv" },
+  { { KEY_F+8, 0 }, "speaker_stereo" },
   { { KEY_ESC, 0 }, "quit" },
   { { 'p', 0 }, "pause" },
   { { ' ', 0 }, "pause" },
@@ -510,6 +518,7 @@ static const mp_cmd_bind_t def_cmd_binds[] = {
   { { KEY_VOLUME_UP, 0 }, "volume 1" },
   { { KEY_VOLUME_DOWN, 0 }, "volume -1" },
   { { KEY_MUTE, 0 }, "mute" },
+  { { KEY_RECORD, 0 }, "record" },
 
   { { KEY_CLOSE_WIN, 0 }, "quit" },
 

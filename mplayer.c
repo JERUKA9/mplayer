@@ -1704,6 +1704,8 @@ void reinit_audio_chain(void)
     }
     mpctx->mixer.audio_out = mpctx->audio_out;
     mpctx->mixer.volstep   = volstep;
+    if (start_volume >= 0)
+      mixer_setvolume(&mpctx->mixer, start_volume, start_volume);
     return;
 
 init_error:
