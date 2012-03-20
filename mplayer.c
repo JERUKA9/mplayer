@@ -756,8 +756,10 @@ void exit_player_with_rc(enum exit_reason how, int rc)
 
     // must be last since e.g. mp_msg uses option values
     // that will be freed by this.
+    /*
     if (mconfig)
         m_config_free(mconfig);
+    */
     mconfig = NULL;
 
     exit(rc);
