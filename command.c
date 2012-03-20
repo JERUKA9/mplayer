@@ -2354,6 +2354,7 @@ void write_current_position(MPContext *mpctx) {
   fp = fopen(path, "a");
   fprintf(fp, "%f %s\n", v, get_metadata(META_NAME));
   fclose(fp);
+  free(path);
 }
 
 
