@@ -2340,12 +2340,18 @@ static struct {
 
 void write_current_position(MPContext *mpctx) {
   FILE *fp;
+  char *home = getenv("HOME");
+  char *name = "/.mplayer.positions";
+  char *path = malloc(strlen(home) + strlen(name) + 1);
+
+  strcpy(path, home);
+  strcat(path, name);
 
   float v = mpctx->sh_video ? mpctx->sh_video->pts:
     playing_audio_pts(mpctx->sh_audio, mpctx->d_audio,
 		      mpctx->audio_out);
   
-  fp = fopen("/home/larsi/.mplayer.positions", "a");
+  fp = fopen(path, "a");
   fprintf(fp, "%f %s\n", v, get_metadata(META_NAME));
   fclose(fp);
 }
