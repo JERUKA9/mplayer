@@ -2780,17 +2780,17 @@ int run_command(MPContext *mpctx, mp_cmd_t *cmd)
 
         case MP_CMD_SPEAKER_PHONES:
 	audio_phones:
-	  audio_driver_list[0] = "alsa:device=hw=0.0";
+	  audio_driver_list[0] = "alsa:device=hw=1.0";
 	  audio_delay = -0.1;
 	  goto audio_cont;
         case MP_CMD_SPEAKER_TV:
 	audio_tv:
-	  audio_driver_list[0] = "alsa:device=hw=0.7";
+	  audio_driver_list[0] = "alsa:device=hw=2.7";
 	  audio_delay = 0;
 	  goto audio_cont;
         case MP_CMD_SPEAKER_STEREO:
 	audio_stereo:
-	  audio_driver_list[0] = "alsa:device=hw=1.0";
+	  audio_driver_list[0] = "alsa:device=hw=0.0";
 	  audio_delay = 0;
 
 	audio_cont:
